@@ -57,3 +57,16 @@ body {
 .signup-container .login-link a:hover {
     text-decoration: underline;
 }
+
+.user-type {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.user-type label {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between radio button and text */
+}
