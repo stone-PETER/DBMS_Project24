@@ -40,8 +40,8 @@
 	<%
 		String select = request.getParameter("select");
 		if(select != null){
-			String URL = "jdbc:mysql://localhost:3306/grocery_DB";
-		    String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+			String URL = "jdbc:mysql://localhost:3306/grocery_db";
+		    String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
 		    String USER = "tazeen";
 		    String PASS = "kitkat";
 		    Connection conn=null;
@@ -194,8 +194,8 @@
 	<%
 		String select = request.getParameter("select");
 		if(select != null){
-			String URL = "jdbc:mysql://localhost:3306/grocery_DB";
-		    String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+			String URL = "jdbc:mysql://localhost:3306/grocery_db";
+		    String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
 		    String USER = "tazeen";
 		    String PASS = "kitkat";
 		    Connection conn=null;

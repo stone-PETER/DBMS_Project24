@@ -19,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/groceryServlet")
 public class groceryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	 private static final String URL = "jdbc:mysql://localhost:3306/Grocery_DB";
-	    private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+	 private static final String URL = "jdbc:mysql://localhost:3306/grocery_db";
+	    private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
 	    private static final String USER = "tazeen";
 	    private static final String PASS = "kitkat";
 	    java.sql.Connection conn;
@@ -56,9 +56,9 @@ public class groceryServlet extends HttpServlet {
 			int id = Integer.parseInt(request.getParameter("id"));
 			int quantity = Integer.parseInt(request.getParameter("quantity"));
 			
-			String query = "INSERT INTO customer_details (Name, Phone_No, Email_ID, Address) VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO customer_details (Name, Phone_No) VALUES (?, ?, ?, ?)";
 			
-			String query1 = "INSERT INTO order_details (quantity, prod_ID, cust_ID) VALUES (?, ?, ?)";
+			String query1 = "INSERT INTO order_details (quantity, prod_ID, transaction_ID) VALUES (?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(query,  Statement.RETURN_GENERATED_KEYS);
 			
 			ps.setString(1, name);
