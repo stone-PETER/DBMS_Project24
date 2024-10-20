@@ -15,8 +15,8 @@ public class Search extends HttpServlet {
 		int roll=Integer.valueOf(rollno);
 		
 		try{
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/grocery","tazeen","kitkat");
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/grocery_db","tazeen","kitkat");
 			
 			PreparedStatement ps=con.prepareStatement("select * from product_details where product_id=?");
 			ps.setInt(1,product_id);

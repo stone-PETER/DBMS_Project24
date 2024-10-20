@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/UpdateProduct")
 public class UpdateProduct extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	 private static final String URL = "jdbc:mysql://localhost:3306/Grocery_DB";
-	    private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+	 private static final String URL = "jdbc:mysql://localhost:3306/grocery_db";
+	    private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
 	    private static final String USER = "tazeen";
 	    private static final String PASS = "kitkat";
 	    java.sql.Connection conn;
