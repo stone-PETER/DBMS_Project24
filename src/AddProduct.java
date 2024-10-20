@@ -53,7 +53,7 @@ public class AddProduct extends HttpServlet {
 		int cat = Integer.parseInt(request.getParameter("cat"));
 		double price = Double.parseDouble(request.getParameter("price"));
 		System.out.println(pname+","+desc+","+img+","+cat+","+price);
-		String sql = "INSERT INTO product_details (product_name, prod_img, product_desc, product_price, cat_id) VALUES (?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO product_details (product_id,product_name,product_description,category,price,stock,rating, prod_img) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
 			//PreparedStatement-can have an sql query and can be executed any number of times(one instance created and reused)
 			PreparedStatement pstmt = conn.prepareStatement(sql);
