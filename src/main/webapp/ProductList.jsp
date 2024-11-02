@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.Connection, java.sql.DriverManager, java.sql.PreparedStatement, java.sql.ResultSet" %>
 <%
+System.out.println("ProductList");
 Connection con = null;
 PreparedStatement ps = null;
 ResultSet rs = null;
@@ -27,19 +28,28 @@ try {
 </head>
 <body>
     <header>
-        <h1>Welcome to Fresh Grocery Store</h1>
-        <a href="Login.jsp" class="login-btn">Login</a>
-        <a href="createAccount.jsp" class="signup-btn">Sign Up</a>
+    <% 	Long phone = (Long)session.getAttribute("Phone");
+		if(phone == null) { %>
+		
+        <!-- Show login/signup buttons only if user is not logged in -->
+        <a href="Login.jsp?returnUrl=ProductList.jsp?search=%25&submit=Search" class="login-btn">Login</a>
+        <a href="createAccount.jsp?returnUrl=ProductList.jsp?search=%25&submit=Search" class="signup-btn">Sign Up</a>
+    <% } else { System.out.println("Else"); %>
+        <!-- Show user info and logout when logged in -->
+        <div class="user-menu">
+            <span class="user-phone"><%=phone%></span>
+            <a href="LogoutServlet?returnUrl=index.jsp" class="logout-btn">Logout</a>
+        </div>
+    <% } %>
     </header>
 
     <nav>
-        <a href="index.html">Home</a>
+        <a href="index.jsp">Home</a>
         <a href="ProductList.jsp">Shop</a>
-        <a href="ContactUs.html">About Us</a>
-        <a href="ContactUs.html">Contact</a>
+        <a href="ContactUs.jsp">Contact</a>
     </nav>
     <form method="GET" action="ProductList.jsp" id="searchform">
-        <input type="text" name="search"> <input type="submit" name="submit" value="Search">
+        <input type="text" name="search"> <input type="hidden" name="returnUrl" value="<%= request.getParameter("returnUrl") %>"><input type="submit" name="submit" value="Search">
     </form>
     
     <section class="product-showcase" id="shop">

@@ -8,8 +8,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
-@WebServlet("/CreateAccountServlet")
+@WebServlet("/createAccountServlet")
 public class createAccountServlet extends HttpServlet {
     /**
 	 * 
@@ -18,6 +19,7 @@ public class createAccountServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("Name");
+        String returnURL = request.getParameter("returnUrl");
         String password = request.getParameter("password");
         Long phone = Long.parseLong(request.getParameter("Phone"));
         boolean isValidUser=true;
@@ -36,7 +38,10 @@ public class createAccountServlet extends HttpServlet {
 				e.printStackTrace();
 			}
         }
+        HttpSession session = request.getSession();
+        session.setAttribute("Login", 1);
+        session.setAttribute("Phone", phone);
 
-        response.sendRedirect("Login.jsp");
+        response.sendRedirect(returnURL);
     }
 }

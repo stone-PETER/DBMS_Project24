@@ -96,51 +96,54 @@
 <body>
 
 <!-- Navigation -->
-<nav>
-        <a href="index.html">Home</a>
+	<nav>
+        <a href="index.jsp">Home</a>
         <a href="ProductList.jsp">Shop</a>
-        <a href="ContactUs.html">About Us</a>
-        <a href="ContactUs.html">Contact</a>
+        <a href="ContactUs.jsp">Contact</a>
     </nav>
 
 <!-- Signup Form -->
 <%
         // Retrieve the username from the session
         PrintWriter out1 = response.getWriter();
+		HttpSession session1 = request.getSession();
+		 String id = request.getParameter("id");
+		    String quantity = request.getParameter("quantity");
+		    String mode = request.getParameter("mode");
+
+		    if (id != null && quantity != null && mode != null) {
+		        session1.setAttribute("id", id);
+		        session1.setAttribute("quantity", quantity);
+		        session1.setAttribute("mode", mode);
+		    } 
 		String display="none";
-		String displaySubmit="none";
         Long phone = (Long)session.getAttribute("Phone");
 
         if (phone != null) {
-            out1.println("<p>Logged in as " + phone + "!</p>");
-            displaySubmit="block";
             
+            display="block";      
         } else {
-            display="block";
+            // Redirect to login page with return parameters
+            String returnUrl = "buynow.jsp";
+            response.sendRedirect("Login.jsp?returnUrl=" + returnUrl);
+            return;
+            
         }
     %>
 <div id="Sign-Up" style="display:<%= display %>;"> 
+	
     <fieldset>
-        <legend>Create an Account</legend> 
-        <form method="POST" action="LoginServlet"> 
+    	<label><p>"Logged in as <%= phone %> !"</p></label>
+        <form method="POST" action="groceryServlet"> 
+        
             <table>
+                
+                <input type="hidden" value="<%= session1.getAttribute("id") %>" name="id"/>
+                <input type="hidden" value="<%= session1.getAttribute("quantity") %>" name="quantity"/>
+                <input type="hidden" value="<%= session1.getAttribute("mode") %>" name="mode"/>
+                <input type="hidden" value="<%= phone %>" name="phone"/>
                 <tr>
-                    <td>Name</td>
-                    <td><input type="text" name="name" placeholder="Name" required></td>
-                </tr>
-                <tr>
-                    <td>Phone Number</td>
-                    <td><input type="tel" name="phone" placeholder="Phone" pattern="[0-9]{10}" required></td>
-                </tr>
-                <tr>
-                    <td>Password</td>
-                    <td><input type="text" name="pass" placeholder="Password" required></td>
-                </tr>
-                <input type="hidden" value="<%= request.getParameter("id") %>" name="id"/>
-                <input type="hidden" value="<%= request.getParameter("quantity") %>" name="quantity"/>
-                <input type="hidden" value="<%= request.getParameter("mode") %>" name="mode"/>
-                <tr>
-                    <td colspan="2"><input type="submit" name="submit" value="Login"></td>
+                    <td colspan="2"><input type="submit" name="submit" value="Checkout"></td>
                 </tr>
             </table> 
         </form> 

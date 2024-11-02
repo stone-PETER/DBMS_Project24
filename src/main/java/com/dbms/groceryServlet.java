@@ -49,25 +49,14 @@ public class groceryServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			String name = request.getParameter("name");
 			long phone = Long.parseLong(request.getParameter("phone"));
-			String password = request.getParameter("pass");
 			int id = Integer.parseInt(request.getParameter("id"));
 			int quantity = Integer.parseInt(request.getParameter("quantity"));
 			String mode = request.getParameter("mode");
 			
-			String query = "INSERT INTO customer_details (Name, Phone_No,password) VALUES (?, ?, ?)";
 			String query1 = "INSERT INTO transaction_details (Phone_No, total_amount, payment_mode) VALUES (?, ?, ?)";
 			String query2 = "INSERT INTO order_details (quantity, prod_ID, transaction_ID) VALUES (?, ?, ?)";
-			PreparedStatement ps = conn.prepareStatement(query,  Statement.RETURN_GENERATED_KEYS);
-			
-			ps.setString(1, name);
-			ps.setLong(2, phone);
-			ps.setString(3, password);
-			
-			ps.executeUpdate();
-			ResultSet rs = ps.getGeneratedKeys();
-			rs.next();
+			ResultSet rs;
 			PreparedStatement ps2 = conn.prepareStatement(query1);
 			ps2.setLong(1, phone);
 			ps2.setInt(2, 0);

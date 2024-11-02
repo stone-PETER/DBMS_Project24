@@ -21,6 +21,8 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Long phone = Long.parseLong(request.getParameter("Phone"));
         String password = request.getParameter("password");
+        String returnURL = request.getParameter("returnUrl");
+
 
 
         Connection conn = null;
@@ -51,7 +53,7 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("Phone", phone);
 
                 // Redirect to the success page
-                response.sendRedirect("ProductList.jsp");
+                response.sendRedirect(returnURL);
             } else {
                 // Invalid credentials, show error message
                 response.setContentType("text/html");
