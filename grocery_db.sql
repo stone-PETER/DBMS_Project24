@@ -24,3 +24,28 @@ ADD FOREIGN KEY (transaction_ID) REFERENCES transaction_details(transaction_ID);
 insert into order_details values(1,1,1);
 select * from order_details;
 select * from transaction_details;
+CREATE OR REPLACE TRIGGER update_total_amount_after_insert
+AFTER INSERT ON order_details
+FOR EACH ROW
+DECLARE
+  product_price product_details.price%TYPE;
+BEGIN
+  
+  SELECT price INTO product_price
+  FROM product_details
+  WHERE product_id = :NEW.prod_ID;
+
+  UPDATE transaction_details
+  SET total_amount = total_amount + (product_price * :NEW.quantity)
+  WHERE transaction_ID = :NEW.transaction_ID;
+END;
+/
+CREATE OR REPLACE TRIGGER reduce_stock_after_insert
+AFTER INSERT ON order_details
+FOR EACH ROW
+BEGIN
+  UPDATE product_details
+  SET stock = stock - :NEW.quantity
+  WHERE product_id = :NEW.prod_ID;
+END;
+/
