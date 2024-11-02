@@ -1,10 +1,35 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-pageEncoding="ISO-8859-1"%> <%@ page import="java.sql.*"%> <% String URL =
-"jdbc:mysql://localhost:3306/grocery_db"; String JDBC_DRIVER =
-"com.mysql.cj.jdbc.Driver"; String USER = "tazeen"; String PASS = "kitkat";
-Connection conn = null; try { Class.forName(JDBC_DRIVER); conn =
-DriverManager.getConnection(URL, USER, PASS); } catch (SQLException e) { // TODO
-Auto-generated catch block e.printStackTrace(); } %>
+<%@ page import="java.sql.*" %>
+<%
+    String URL = "jdbc:mysql://localhost:3306/grocery_db";
+    String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+    String USER = "tazeen";
+    String PASS = "kitkat";
+    Connection conn = null;
+    try {
+        Class.forName(JDBC_DRIVER);
+        conn = DriverManager.getConnection(URL, USER, PASS);
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+    }
+
+    String query = "SELECT * FROM products";
+    if (request.getParameter("search") != null) {
+        String searchString = request.getParameter("search");
+        query += " WHERE product_name LIKE '%" + searchString + "%'";
+    }
+    System.out.println("Query: " + query);
+
+    ResultSet rs = null;
+    if (conn != null) {
+        try {
+            rs = conn.createStatement().executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
@@ -21,17 +46,12 @@ Auto-generated catch block e.printStackTrace(); } %>
     </ul>
     <form method="GET" action="ProductList.jsp" id="searchform">
       <input type="text" name="search" />
-      <input type="submit" name="submit" value="Search" />
     </form>
-    <% String query = "SELECT * FROM product_details WHERE "; if
-    (request.getParameter("id") != null) { int catId =
-    Integer.parseInt(request.getParameter("id")); query += "cat_id=" + catId; }
-    else if (request.getParameter("search") != null) { String searchString =
-    request.getParameter("search"); query += "product_name LIKE '%" +
-    searchString + "%'"; } System.out.println("Query: " + query); ResultSet rs =
-    conn.createStatement().executeQuery(query); %>
     <ul class="wrapper">
-      <% while (rs.next()) { int id = rs.getInt("product_id"); %>
+      <% if (rs != null) {
+          while (rs.next()) {
+              int id = rs.getInt("product_id");
+      %>
       <li class="box">
         <a href="ProductInfo.jsp?id=<%=id%>"
           ><img src="./Images/<%=rs.getString("prod_img")%>"
@@ -39,7 +59,7 @@ Auto-generated catch block e.printStackTrace(); } %>
           150px;"> <%=rs.getString("product_name")%></a
         >
       </li>
-      <% } %>
+      <% }} %>
     </ul>
   </body>
 </html>
